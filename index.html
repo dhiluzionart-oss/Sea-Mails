@@ -3,15 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sea Mail - For the Brave Heart</title>
+    <title>Sea Mail</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --paper: #fffef7;
-            --ink: #2c3e50;
-            --soft-blue: #b2ebf2;
-        }
-
         body {
             margin: 0;
             padding: 0;
@@ -22,24 +16,21 @@
             background: linear-gradient(180deg, #e0f7fa 0%, #b2ebf2 100%);
             overflow: hidden;
             font-family: 'Quicksand', sans-serif;
-            touch-action: manipulation;
         }
 
-        /* --- BACKGROUND ANIMATION ONLY --- */
+        /* Moving background elements (Only these move) */
         .bubble {
             position: absolute;
             bottom: -50px;
             background: rgba(255, 255, 255, 0.4);
             border-radius: 50%;
-            filter: blur(1px);
             animation: rise 15s infinite ease-in;
             pointer-events: none;
         }
-
         @keyframes rise {
-            0% { transform: translateY(0) scale(1); opacity: 0; }
+            0% { transform: translateY(0); opacity: 0; }
             50% { opacity: 0.5; }
-            100% { transform: translateY(-110vh) scale(1.5); opacity: 0; }
+            100% { transform: translateY(-110vh); opacity: 0; }
         }
 
         .fish {
@@ -47,18 +38,18 @@
             font-size: 20px;
             opacity: 0.3;
             pointer-events: none;
+            animation: swim 20s infinite linear;
         }
-
         @keyframes swim {
             from { left: -50px; }
             to { left: 110%; }
         }
 
-        /* --- STABLE LETTER (NO MOVEMENT) --- */
+        /* THE LETTER - Completely Static */
         .envelope {
             width: 280px;
             height: 180px;
-            background: var(--paper);
+            background: #fffef7;
             border-radius: 15px;
             display: flex;
             flex-direction: column;
@@ -66,15 +57,13 @@
             align-items: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             border: 1px solid rgba(0,0,0,0.05);
-            background-image: url('https://www.transparenttextures.com/patterns/handmade-paper.png');
             cursor: pointer;
-            z-index: 100;
-            /* Transition removed to prevent accidental movement */
+            z-index: 10;
         }
 
         .envelope h2 { 
             font-family: 'Dancing Script', cursive; 
-            color: var(--ink); 
+            color: #2c3e50; 
             font-size: 2rem; 
             margin: 0;
         }
@@ -87,12 +76,13 @@
             text-transform: uppercase;
         }
 
-        /* --- MESSAGE POPUP --- */
+        /* THE MESSAGE - Only shows on click */
         #message-card {
+            display: none; /* Hidden by default */
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(0);
+            transform: translate(-50%, -50%);
             width: 80%;
             max-width: 350px;
             background: #ffffff;
@@ -100,16 +90,13 @@
             border-radius: 20px;
             box-shadow: 0 30px 60px rgba(0,0,0,0.1);
             text-align: center;
-            z-index: 200;
-            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            z-index: 20;
         }
-
-        #message-card.active { transform: translate(-50%, -50%) scale(1); }
 
         #message-card p {
             line-height: 1.8;
             color: #475569;
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-style: italic;
         }
 
@@ -123,70 +110,34 @@
             cursor: pointer;
             font-size: 11px;
             font-weight: bold;
-            text-transform: uppercase;
         }
     </style>
 </head>
 <body>
 
-    <audio id="softSeaAudio" loop>
-        <source src="https://assets.mixkit.co/active_storage/sfx/1101/1101-preview.mp3" type="audio/mpeg">
-    </audio>
-
     <script>
-        // Emojis Background Animation
-        for (let i = 0; i < 12; i++) {
+        for (let i = 0; i < 10; i++) {
             let b = document.createElement('div');
             b.className = 'bubble';
             let size = Math.random() * 15 + 5 + 'px';
-            b.style.width = size;
-            b.style.height = size;
+            b.style.width = size; b.style.height = size;
             b.style.left = Math.random() * 100 + '%';
-            b.style.animationDuration = Math.random() * 8 + 10 + 's';
-            b.style.animationDelay = Math.random() * 5 + 's';
+            b.style.animationDuration = Math.random() * 5 + 10 + 's';
             document.body.appendChild(b);
         }
 
-        const seaIcons = ['🐠', '🐟', '✨'];
+        const icons = ['🐠', '🐟', '✨'];
         for (let i = 0; i < 5; i++) {
             let f = document.createElement('div');
             f.className = 'fish';
-            f.innerText = seaIcons[Math.floor(Math.random() * seaIcons.length)];
+            f.innerText = icons[Math.floor(Math.random() * icons.length)];
             f.style.top = Math.random() * 80 + 10 + '%';
-            f.style.animation = `swim ${Math.random() * 10 + 20}s infinite linear`;
+            f.style.animationDelay = Math.random() * 10 + 's';
             document.body.appendChild(f);
-        }
-
-        const quotes = [
-            "The ocean is vast, but your heart is brave enough to cross it. ✨",
-            "Keep going, brave heart. Every wave brings you closer to your dreams. ⚓",
-            "You are doing something incredible. Take a moment to be proud of yourself. 🌊",
-            "Missing home is just love traveling across the water. It’s always with you. 🐚",
-            "The same moon that shines on you, shines on everyone you love. 🌙",
-            "Stay steady, stay calm. You have the strength of the tides within you. 🛳️",
-            "You are a hero of the sea. May your journey be as beautiful as your spirit. ✨",
-            "Every sunset at sea is a masterpiece painted just for you. 🌅",
-            "You are the light of this ship. Keep shining bright! 🌟",
-            "Be proud of your journey. You are much stronger than you think. ⚓"
-        ];
-
-        function openDiary() {
-            // Audio starts ONLY when the letter is clicked
-            const audio = document.getElementById('softSeaAudio');
-            audio.volume = 0.1; // Very soft
-            audio.play().catch(() => {});
-
-            document.getElementById('quote-text').innerText = quotes[Math.floor(Math.random() * quotes.length)];
-            document.getElementById('message-card').classList.add('active');
-        }
-
-        function closeDiary(event) {
-            event.stopPropagation();
-            document.getElementById('message-card').classList.remove('active');
         }
     </script>
 
-    <div class="envelope" onclick="openDiary()">
+    <div class="envelope" onclick="openLetter()">
         <div style="font-size: 20px; opacity: 0.3; margin-bottom: 5px;">⚓</div>
         <h2>Sea Mail</h2>
         <p>For the Brave Heart</p>
@@ -195,8 +146,31 @@
 
     <div id="message-card">
         <p id="quote-text"></p>
-        <button class="close-btn" onclick="closeDiary(event)">Sail on, brave heart!</button>
+        <button class="close-btn" onclick="closeLetter()">Sail on, brave heart!</button>
     </div>
 
+    <script>
+        const quotes = [
+            "The ocean is vast, but your heart is brave enough to cross it. ✨",
+            "Keep going, brave heart. Every wave brings you closer home. ⚓",
+            "You are doing something incredible. Be proud of yourself. 🌊",
+            "Missing home is just love traveling across the water. 🐚",
+            "The same moon shines on you and everyone you love. 🌙",
+            "Stay steady and calm. You are stronger than the tides. 🛳️",
+            "You are a hero of the sea. May your journey be beautiful. ✨",
+            "Every sunset at sea is a masterpiece painted for you. 🌅",
+            "You are the light of this ship. Keep shining bright! 🌟",
+            "One day at a time. You are much stronger than you think. ⚓"
+        ];
+
+        function openLetter() {
+            document.getElementById('quote-text').innerText = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('message-card').style.display = 'block';
+        }
+
+        function closeLetter() {
+            document.getElementById('message-card').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
