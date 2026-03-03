@@ -22,27 +22,26 @@
             background: linear-gradient(180deg, #e0f7fa 0%, #b2ebf2 100%);
             overflow: hidden;
             font-family: 'Quicksand', sans-serif;
-            touch-action: manipulation; /* Menghilangkan delay sentuhan di HP */
+            touch-action: manipulation;
         }
 
-        /* --- Bubble Animation --- */
+        /* --- Ambient Sea Decorations --- */
         .bubble {
             position: absolute;
             bottom: -50px;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.4);
             border-radius: 50%;
             filter: blur(1px);
-            animation: rise 12s infinite ease-in;
+            animation: rise 15s infinite ease-in;
             pointer-events: none;
         }
 
         @keyframes rise {
             0% { transform: translateY(0) scale(1); opacity: 0; }
-            50% { opacity: 0.6; }
+            50% { opacity: 0.5; }
             100% { transform: translateY(-110vh) scale(1.5); opacity: 0; }
         }
 
-        /* --- Small Fish --- */
         .fish {
             position: absolute;
             font-size: 20px;
@@ -55,11 +54,7 @@
             to { left: 110%; }
         }
 
-        /* --- Simple Diary Envelope (No movement on mobile) --- */
-        .diary-wrapper {
-            z-index: 100;
-        }
-
+        /* --- Letter Design --- */
         .envelope {
             width: 280px;
             height: 180px;
@@ -73,6 +68,7 @@
             border: 1px solid rgba(0,0,0,0.05);
             background-image: url('https://www.transparenttextures.com/patterns/handmade-paper.png');
             cursor: pointer;
+            z-index: 100;
         }
 
         .envelope h2 { 
@@ -90,7 +86,7 @@
             text-transform: uppercase;
         }
 
-        /* --- Popup Letter --- */
+        /* --- Modal Popup --- */
         #message-card {
             position: fixed;
             top: 50%;
@@ -110,9 +106,9 @@
         #message-card.active { transform: translate(-50%, -50%) scale(1); }
 
         #message-card p {
-            line-height: 1.6;
+            line-height: 1.8;
             color: #475569;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             font-style: italic;
         }
 
@@ -121,7 +117,7 @@
             background: #b2ebf2;
             color: #2c3e50;
             border: none;
-            padding: 10px 25px;
+            padding: 12px 25px;
             border-radius: 50px;
             cursor: pointer;
             font-size: 11px;
@@ -131,12 +127,12 @@
 </head>
 <body>
 
-    <audio id="bubbleAudio" loop>
-        <source src="https://assets.mixkit.co/active_storage/sfx/2281/2281-preview.mp3" type="audio/mpeg">
+    <audio id="softSeaAudio" loop>
+        <source src="https://assets.mixkit.co/active_storage/sfx/1101/1101-preview.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        // Bubbles
+        // Create Bubbles
         for (let i = 0; i < 12; i++) {
             let b = document.createElement('div');
             b.className = 'bubble';
@@ -144,38 +140,38 @@
             b.style.width = size;
             b.style.height = size;
             b.style.left = Math.random() * 100 + '%';
-            b.style.animationDuration = Math.random() * 8 + 8 + 's';
+            b.style.animationDuration = Math.random() * 8 + 10 + 's';
             b.style.animationDelay = Math.random() * 5 + 's';
             document.body.appendChild(b);
         }
 
-        // Fish
-        const icons = ['🐠', '🐟', '✨'];
+        // Create Fish
+        const seaIcons = ['🐠', '🐟', '✨'];
         for (let i = 0; i < 5; i++) {
             let f = document.createElement('div');
             f.className = 'fish';
-            f.innerText = icons[Math.floor(Math.random() * icons.length)];
+            f.innerText = seaIcons[Math.floor(Math.random() * seaIcons.length)];
             f.style.top = Math.random() * 80 + 10 + '%';
-            f.style.animation = `swim ${Math.random() * 10 + 15}s infinite linear`;
+            f.style.animation = `swim ${Math.random() * 10 + 20}s infinite linear`;
             document.body.appendChild(f);
         }
 
         const quotes = [
-            "The ocean is big, but your heart is bigger. Stay strong! ✨",
-            "Every wave is a reminder of how tough you are. Keep sailing. ⚓",
-            "You are doing amazing work out there. We are so proud of you. 🌊",
-            "Missing home is hard, but you are carrying so much love with you. 🐚",
-            "No matter how far you go, you are always under the same moon. 🌙",
-            "The sea is calm because it knows you can handle anything. 🛳️",
-            "Take a deep breath. You are safe, you are brave, and you are loved. ✨",
-            "One day at a time. Each sunset brings you closer to home. 🌅",
-            "You are the star that guides this ship. Keep shining! 🌟",
-            "Be kind to yourself today. You are a true hero of the sea. ⚓"
+            "The ocean is vast, but your heart is brave enough to cross it. ✨",
+            "Keep going, brave heart. Every wave brings you closer to your dreams. ⚓",
+            "You are doing something incredible. Take a moment to be proud of yourself. 🌊",
+            "Missing home is just love traveling across the water. It’s always with you. 🐚",
+            "The same moon that shines on you, shines on everyone you love. 🌙",
+            "Stay steady, stay calm. You have the strength of the tides within you. 🛳️",
+            "You are a hero of the sea. May your journey be as beautiful as your spirit. ✨",
+            "Every sunset at sea is a masterpiece painted just for you. 🌅",
+            "You are the light of this ship. Keep shining bright! 🌟",
+            "Be proud of your journey. You are much stronger than you think. ⚓"
         ];
 
         function openDiary() {
-            const audio = document.getElementById('bubbleAudio');
-            audio.volume = 0.2; // Suara gelembung sangat pelan
+            const audio = document.getElementById('softSeaAudio');
+            audio.volume = 0.15; // Set very low for a "soft whisper" feel
             audio.play().catch(() => {});
 
             document.getElementById('quote-text').innerText = quotes[Math.floor(Math.random() * quotes.length)];
@@ -188,13 +184,11 @@
         }
     </script>
 
-    <div class="diary-wrapper">
-        <div class="envelope" onclick="openDiary()">
-            <div style="font-size: 20px; opacity: 0.3; margin-bottom: 5px;">⚓</div>
-            <h2>Sea Mail</h2>
-            <p>For the Brave Heart</p>
-            <div style="margin-top:10px; opacity: 0.5;">🐚 ✨</div>
-        </div>
+    <div class="envelope" onclick="openDiary()">
+        <div style="font-size: 20px; opacity: 0.3; margin-bottom: 5px;">⚓</div>
+        <h2>Sea Mail</h2>
+        <p>For the Brave Heart</p>
+        <div style="margin-top:10px; opacity: 0.5;">🐚 ✨</div>
     </div>
 
     <div id="message-card">
