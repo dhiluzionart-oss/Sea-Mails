@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sea Mail - For the Brave Heart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paper: #fffef2;
+            --ink: #2c3e50;
+            --soft-blue: #b2ebf2;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Watercolor Pastel Background */
+            background: radial-gradient(circle at center, #e0f7fa 0%, #b2ebf2 100%);
+            overflow: hidden;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        /* --- Soft Floating Elements --- */
+        .bubble {
+            position: absolute;
+            bottom: -50px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            filter: blur(1px);
+            animation: rise 15s infinite ease-in;
+            pointer-events: none;
+        }
+
+        @keyframes rise {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            50% { opacity: 0.6; }
+            100% { transform: translateY(-110vh) scale(1.5); opacity: 0; }
+        }
+
+        .fish {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        @keyframes swim {
+            from { left: -50px; }
+            to { left: 110%; }
+        }
+
+        /* --- Diary Letter Style --- */
+        .diary-wrapper {
+            cursor: pointer;
+            z-index: 100;
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .diary-wrapper:hover { transform: scale(1.05) rotate(-1deg); }
+
+        .envelope {
+            width: 300px;
+            height: 200px;
+            background: var(--paper);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+            position: relative;
+            border: 1px solid rgba(0,0,0,0.05);
+            background-image: url('https://www.transparenttextures.com/patterns/handmade-paper.png');
+        }
+
+        .envelope h2 { 
+            font-family: 'Dancing Script', cursive; 
+            color: var(--ink); 
+            font-size: 2.2rem; 
+            margin: 0;
+        }
+
+        .envelope p { 
+            font-size: 11px; 
+            color: #94a3b8; 
+            letter-spacing: 3px; 
+            margin-top: 10px; 
+            text-transform: uppercase;
+        }
+
+        /* --- Message Card (Diary Page) --- */
+        #message-card {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 85%;
+            max-width: 400px;
+            background: #ffffff;
+            padding: 50px 35px;
+            border-radius: 20px;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.1);
+            text-align: center;
+            z-index: 200;
+            transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+            background-image: url('https://www.transparenttextures.com/patterns/paper.png');
+        }
+
+        #message-card.active { transform: translate(-50%, -50%) scale(1); }
+
+        #message-card p {
+            line-height: 2;
+            color: #475569;
+            font-size: 1.25rem;
+            font-style: italic;
+        }
+
+        .close-btn {
+            margin-top: 40px;
+            background: #b2ebf2;
+            color: #2c3e50;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 11px;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop>
+        <source src="https://www.chosic.com/wp-content/uploads/2021/04/Rainy-Day-Background-Piano-Music.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="bgWaves" loop>
+        <source src="https://assets.mixkit.co/active_storage/sfx/1188/1188-preview.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Generate Bubbles
+        for (let i = 0; i < 15; i++) {
+            let b = document.createElement('div');
+            b.className = 'bubble';
+            let size = Math.random() * 20 + 5 + 'px';
+            b.style.width = size;
+            b.style.height = size;
+            b.style.left = Math.random() * 100 + '%';
+            b.style.animationDuration = Math.random() * 10 + 10 + 's';
+            b.style.animationDelay = Math.random() * 5 + 's';
+            document.body.appendChild(b);
+        }
+
+        // Generate Small Fish
+        const icons = ['🐠', '🐟', '✨', '🐚'];
+        for (let i = 0; i < 6; i++) {
+            let f = document.createElement('div');
+            f.className = 'fish';
+            f.innerText = icons[Math.floor(Math.random() * icons.length)];
+            f.style.top = Math.random() * 80 + 10 + '%';
+            f.style.animation = `swim ${Math.random() * 15 + 20}s infinite linear`;
+            f.style.animationDelay = Math.random() * 10 + 's';
+            document.body.appendChild(f);
+        }
+
+        const quotes = [
+            "Your heart has chosen a path where the stars are your map and the moon your witness. You are as vast as the deep blue itself. ✨",
+            "Distance is not a void between lands, but a sanctuary for a soul brave enough to live where the earth cannot reach. ⚓",
+            "Between the sky and the salt, you have found a home. May the currents be kind and your inner compass remain true. 🌊",
+            "To love the sea is to know that beauty and silence dance together, and you have chosen to be their witness. 🐚",
+            "Though your feet do not touch the earth, you are anchored by a courage many will never understand. Keep shining. 🛳️",
+            "The deepest waters are always the quietest. Be like them; carry your heavy journey with the grace of the ocean. ✨",
+            "Every sunset at sea is a quiet promise that home is not a place, but a light you carry within you across the waves. 🌅",
+            "The moon watches over you tonight, reflecting the same light on the home you miss and the deck where you stand. 🌙",
+            "May your spirit remain calm in the storm and find peace in every sunrise that breaks over the edge of the world. 🐳",
+            "You are the pulse of the ocean, the one who keeps the world moving while others sleep. You are truly loved. ⚓"
+        ];
+
+        function openDiary() {
+            const music = document.getElementById('bgMusic');
+            const waves = document.getElementById('bgWaves');
+            
+            music.volume = 0.4; // Soft piano
+            waves.volume = 0.1; // Barely audible sea waves for atmosphere
+            
+            music.play();
+            waves.play();
+
+            document.getElementById('quote-text').innerText = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('message-card').classList.add('active');
+        }
+
+        function closeDiary(event) {
+            event.stopPropagation();
+            document.getElementById('message-card').classList.remove('active');
+        }
+    </script>
+
+    <div class="diary-wrapper" onclick="openDiary()">
+        <div class="envelope">
+            <div style="position:absolute; top:15px; left:20px; opacity:0.2;">⚓</div>
+            <h2>Sea Mail</h2>
+            <p>For the Brave Heart</p>
+            <div style="margin-top:20px; opacity:0.5;">🐚 ✨ 🌊</div>
+        </div>
+    </div>
+
+    <div id="message-card">
+        <div style="font-size: 30px; margin-bottom: 20px; opacity: 0.3;">⚓</div>
+        <p id="quote-text"></p>
+        <button class="close-btn" onclick="closeDiary(event)">SAIL ON, BRAVE HEART</button>
+    </div>
+
+</body>
+</html>
