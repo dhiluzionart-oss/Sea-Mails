@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sea Mail</title>
+    <title>Sea Mail - For the Brave Heart</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@400;500&display=swap" rel="stylesheet">
     <style>
         body {
@@ -13,12 +13,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(180deg, #e0f7fa 0%, #b2ebf2 100%);
+            /* Background Pastel Watercolor */
+            background: linear-gradient(180deg, #f0faff 0%, #d1f2f7 100%);
             overflow: hidden;
             font-family: 'Quicksand', sans-serif;
         }
 
-        /* Moving background elements (Only these move) */
+        /* Elemen dekorasi latar belakang (Hanya ini yang bergerak) */
         .bubble {
             position: absolute;
             bottom: -50px;
@@ -38,110 +39,115 @@
             font-size: 20px;
             opacity: 0.3;
             pointer-events: none;
-            animation: swim 20s infinite linear;
+            animation: swim 25s infinite linear;
         }
         @keyframes swim {
             from { left: -50px; }
             to { left: 110%; }
         }
 
-        /* THE LETTER - Completely Static */
+        /* SURAT - Tetap diam, tidak bergerak otomatis */
         .envelope {
             width: 280px;
             height: 180px;
             background: #fffef7;
-            border-radius: 15px;
+            border-radius: 20px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            border: 1px solid #e0f2f1;
             cursor: pointer;
             z-index: 10;
+            position: relative;
         }
 
         .envelope h2 { 
             font-family: 'Dancing Script', cursive; 
             color: #2c3e50; 
-            font-size: 2rem; 
+            font-size: 2.2rem; 
             margin: 0;
         }
 
         .envelope p { 
             font-size: 10px; 
-            color: #94a3b8; 
-            letter-spacing: 2px; 
+            color: #a0aec0; 
+            letter-spacing: 3px; 
             margin-top: 8px; 
             text-transform: uppercase;
+            font-weight: bold;
         }
 
-        /* THE MESSAGE - Only shows on click */
+        /* KARTU PESAN - Muncul hanya saat diklik */
         #message-card {
-            display: none; /* Hidden by default */
+            display: none;
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             width: 80%;
-            max-width: 350px;
+            max-width: 360px;
             background: #ffffff;
-            padding: 40px 25px;
-            border-radius: 20px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+            padding: 45px 30px;
+            border-radius: 25px;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.1);
             text-align: center;
             z-index: 20;
+            border-bottom: 8px solid #b2ebf2;
         }
 
         #message-card p {
             line-height: 1.8;
-            color: #475569;
-            font-size: 1.1rem;
+            color: #4a5568;
+            font-size: 1.2rem;
             font-style: italic;
+            margin: 0;
         }
 
         .close-btn {
-            margin-top: 30px;
+            margin-top: 35px;
             background: #b2ebf2;
             color: #2c3e50;
             border: none;
-            padding: 12px 25px;
+            padding: 12px 30px;
             border-radius: 50px;
             cursor: pointer;
             font-size: 11px;
             font-weight: bold;
+            letter-spacing: 1px;
         }
     </style>
 </head>
 <body>
 
     <script>
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 12; i++) {
             let b = document.createElement('div');
             b.className = 'bubble';
             let size = Math.random() * 15 + 5 + 'px';
             b.style.width = size; b.style.height = size;
             b.style.left = Math.random() * 100 + '%';
-            b.style.animationDuration = Math.random() * 5 + 10 + 's';
+            b.style.animationDuration = Math.random() * 5 + 12 + 's';
             document.body.appendChild(b);
         }
 
-        const icons = ['🐠', '🐟', '✨'];
-        for (let i = 0; i < 5; i++) {
+        const icons = ['🐠', '🐟', '🐚', '✨'];
+        for (let i = 0; i < 6; i++) {
             let f = document.createElement('div');
             f.className = 'fish';
             f.innerText = icons[Math.floor(Math.random() * icons.length)];
             f.style.top = Math.random() * 80 + 10 + '%';
-            f.style.animationDelay = Math.random() * 10 + 's';
+            f.style.animationDelay = Math.random() * 15 + 's';
             document.body.appendChild(f);
         }
     </script>
 
     <div class="envelope" onclick="openLetter()">
-        <div style="font-size: 20px; opacity: 0.3; margin-bottom: 5px;">⚓</div>
+        <div style="font-size: 24px; margin-bottom: 5px;">⚓</div>
         <h2>Sea Mail</h2>
         <p>For the Brave Heart</p>
-        <div style="margin-top:10px; opacity: 0.5;">🐚 ✨</div>
+        <div style="margin-top:15px; font-size: 20px;">🐚 🌊 ✨</div>
     </div>
 
     <div id="message-card">
@@ -150,17 +156,18 @@
     </div>
 
     <script>
+        // Quotes khas pelaut yang puitis dan mendalam
         const quotes = [
-            "The ocean is vast, but your heart is brave enough to cross it. ✨",
-            "Keep going, brave heart. Every wave brings you closer home. ⚓",
-            "You are doing something incredible. Be proud of yourself. 🌊",
-            "Missing home is just love traveling across the water. 🐚",
-            "The same moon shines on you and everyone you love. 🌙",
-            "Stay steady and calm. You are stronger than the tides. 🛳️",
-            "You are a hero of the sea. May your journey be beautiful. ✨",
-            "Every sunset at sea is a masterpiece painted for you. 🌅",
-            "You are the light of this ship. Keep shining bright! 🌟",
-            "One day at a time. You are much stronger than you think. ⚓"
+            "Smooth seas do not make skillful sailors. You are doing great. ✨",
+            "Home is where the anchor drops, but love is the wind in your sails. ⚓",
+            "Salt in the air, sand in my hair, and you always in my heart. 🌊",
+            "The stars are your guide, and our love is your compass. 🌙",
+            "A smooth sea never made a skilled sailor. Stay strong, brave heart. 🛳️",
+            "The heart of a sailor is as deep as the ocean itself. ✨",
+            "I'll love you till the ocean meets the sky and the sun won't shine. 🌅",
+            "You are not just crossing the ocean; you are carrying our world with you. ⚓",
+            "May there be a drop of sea water in your soul and love in your every wave. 🐚",
+            "No matter how far you sail, we are always under the same moon. 🌕"
         ];
 
         function openLetter() {
