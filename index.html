@@ -25,7 +25,7 @@
             touch-action: manipulation;
         }
 
-        /* --- Ambient Sea Decorations --- */
+        /* --- BACKGROUND ANIMATION ONLY --- */
         .bubble {
             position: absolute;
             bottom: -50px;
@@ -54,7 +54,7 @@
             to { left: 110%; }
         }
 
-        /* --- Letter Design --- */
+        /* --- STABLE LETTER (NO MOVEMENT) --- */
         .envelope {
             width: 280px;
             height: 180px;
@@ -69,6 +69,7 @@
             background-image: url('https://www.transparenttextures.com/patterns/handmade-paper.png');
             cursor: pointer;
             z-index: 100;
+            /* Transition removed to prevent accidental movement */
         }
 
         .envelope h2 { 
@@ -86,7 +87,7 @@
             text-transform: uppercase;
         }
 
-        /* --- Modal Popup --- */
+        /* --- MESSAGE POPUP --- */
         #message-card {
             position: fixed;
             top: 50%;
@@ -100,7 +101,7 @@
             box-shadow: 0 30px 60px rgba(0,0,0,0.1);
             text-align: center;
             z-index: 200;
-            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
         #message-card.active { transform: translate(-50%, -50%) scale(1); }
@@ -122,6 +123,7 @@
             cursor: pointer;
             font-size: 11px;
             font-weight: bold;
+            text-transform: uppercase;
         }
     </style>
 </head>
@@ -132,7 +134,7 @@
     </audio>
 
     <script>
-        // Create Bubbles
+        // Emojis Background Animation
         for (let i = 0; i < 12; i++) {
             let b = document.createElement('div');
             b.className = 'bubble';
@@ -145,7 +147,6 @@
             document.body.appendChild(b);
         }
 
-        // Create Fish
         const seaIcons = ['🐠', '🐟', '✨'];
         for (let i = 0; i < 5; i++) {
             let f = document.createElement('div');
@@ -170,8 +171,9 @@
         ];
 
         function openDiary() {
+            // Audio starts ONLY when the letter is clicked
             const audio = document.getElementById('softSeaAudio');
-            audio.volume = 0.15; // Set very low for a "soft whisper" feel
+            audio.volume = 0.1; // Very soft
             audio.play().catch(() => {});
 
             document.getElementById('quote-text').innerText = quotes[Math.floor(Math.random() * quotes.length)];
@@ -193,7 +195,7 @@
 
     <div id="message-card">
         <p id="quote-text"></p>
-        <button class="close-btn" onclick="closeDiary(event)">Return to the Blue</button>
+        <button class="close-btn" onclick="closeDiary(event)">Sail on, brave heart!</button>
     </div>
 
 </body>
